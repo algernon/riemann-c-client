@@ -50,7 +50,7 @@ client_send (int argc, char *argv[])
 
   event = riemann_event_new ();
 
-  riemann_event_set_one (event, TAGS, "riemann-c-client", "example:send-events",
+  riemann_event_set_one (event, TAGS, "riemann-c-client",
                          NULL);
   riemann_event_set_one (event, ATTRIBUTES,
                          riemann_attribute_create ("x-client", "riemann-c-client"),
