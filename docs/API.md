@@ -237,7 +237,7 @@ In a lot of cases, creating a new client object is followed by
 connecting to Riemann. This is a pattern used so often that the
 library provides a way to do both things in one step:
 
-<a name="rcc_lib_riemann-client-create"><a>
+<a name="rcc_lib_riemann-client-create"></a>
 ```c
 riemann_client_t *riemann_client_create (riemann_client_type_t type,
                                          const char *hostname, int port,
@@ -1050,7 +1050,7 @@ helpers and API to construct such a string.
 
 #### Creating and freeing query objects
 
-<a name="rcc_lib_riemann-query-new">
+<a name="rcc_lib_riemann-query-new"></a>
 ```c
 riemann_query_t *riemann_query_new (const char *string);
 ```
@@ -1065,7 +1065,7 @@ it also sets `errno` to an appropriate value.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-query-clone">
+<a name="rcc_lib_riemann-query-clone"></a>
 ```c
 riemann_query_t *riemann_query_clone (const riemann_query_t *query);
 ```
@@ -1079,7 +1079,7 @@ in which case it also sets up `errno`.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-query-free">
+<a name="rcc_lib_riemann-query-free"></a>
 ```c
 void riemann_query_free (riemann_query_t *query);
 ```
@@ -1090,7 +1090,7 @@ touch it.
 
 #### Manipulating query objects
 
-<a name="rcc_lib_riemann-query-set-string">
+<a name="rcc_lib_riemann-query-set-string"></a>
 ```c
 int riemann_query_set_string (riemann_query_t *query, const char *string);
 ```
@@ -1115,7 +1115,7 @@ communication functions.
 
 #### Sending and receiving messages
 
-<a name="rcc_lib_riemann-client-send-message">
+<a name="rcc_lib_riemann-client-send-message"></a>
 ```c
 int riemann_client_send_message (riemann_client_t *client,
                                  riemann_message_t *message);
@@ -1137,7 +1137,7 @@ freed even if the send did not succeed!
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-send">
+<a name="rcc_lib_riemann-send"></a>
 ```c
 int riemann_send (riemann_client_t *client,
                   riemann_event_field_t field, ...);
@@ -1169,7 +1169,7 @@ for more information about receiving replies.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-query">
+<a name="rcc_lib_riemann-query"></a>
 ```c
 riemann_message_t *riemann_query (riemann_client_t *client,
                                   const char *query);
@@ -1184,7 +1184,7 @@ and sets `errno` to an appropriate value.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-client-recv-message">
+<a name="rcc_lib_riemann-client-recv-message"></a>
 ```c
 riemann_message_t *riemann_client_recv_message (riemann_client_t *client);
 ```
@@ -1196,7 +1196,7 @@ appropriate value.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-communicate">
+<a name="rcc_lib_riemann-communicate"></a>
 ```c
 riemann_message_t *riemann_communicate (riemann_client_t *client,
                                         riemann_message_t *message);
