@@ -1,3 +1,12 @@
+riemann-c-client 1.10.2
+=======================
+UNRELEASED
+
+Bugfixes
+--------
+
+* A number of formatting issues in the API docs have been fixed.
+
 riemann-c-client 1.10.1
 =======================
 Released on 2017-06-12
