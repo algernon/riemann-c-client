@@ -1,9 +1,6 @@
 Riemann C client library
 ========================
 
-[![Build Status](https://img.shields.io/travis/algernon/riemann-c-client/master.svg?style=flat-square)](https://travis-ci.org/algernon/riemann-c-client)
-[![Latest release](https://img.shields.io/github/release/algernon/riemann-c-client.svg?style=flat-square)](https://github.com/algernon/riemann-c-client/releases/latest)
-
 This is a C client library for the [Riemann][riemann] monitoring
 system, providing a convenient and simple API, high test coverage and
 a copyleft license, along with API and ABI stability.
