@@ -24,7 +24,7 @@ Features
  * API and ABI stability (including symbol versioning on platforms
    where it is available).
 
- [api-docs]: https://github.com/algernon/riemann-c-client/blob/master/docs/API.md#readme
+ [api-docs]: docs/API.md#readme
 
 Demo
 ----
@@ -33,7 +33,7 @@ A simple program that sends a static event to [Riemann][riemann] is
 included below. A few more useful programs are included in the
 [src][src] directory of the source code.
 
- [src]: https://github.com/algernon/riemann-c-client/tree/master/src
+ [src]: src/
 
 ```c
 #include <riemann/riemann-client.h>
@@ -92,7 +92,7 @@ Installation
 
 The library follows the usual autotools way of installation:
 
-    $ git clone git://github.com/algernon/riemann-c-client.git
+    $ git clone https://git.madhouse-project.org/algernon/riemann-c-client.git
     $ cd riemann-c-client
     $ autoreconf -i
     $ ./configure && make && make check && make install
@@ -120,7 +120,7 @@ then start over from `configure`.
 License
 -------
 
-Copyright (C) 2013-2017 Gergely Nagy <algernon@madhouse-project.org>, released
+Copyright (C) 2013-2018 Gergely Nagy <algernon@madhouse-project.org>, released
 under the terms of the [GNU Lesser General Public License][lgpl], version 3+.
 
  [lgpl]: http://www.gnu.org/licenses/lgpl.html
