@@ -1,3 +1,14 @@
+riemann-c-client 1.10.3
+=======================
+UNRELEASED
+
+Bugfixes
+--------
+
+* Dependencies on the generated protobuf C sources have been fixed in the
+  Makefile.
+* A few harmless compile-time warnings have been silenced.
+
 riemann-c-client 1.10.2
 =======================
 Released on 2017-08-19
