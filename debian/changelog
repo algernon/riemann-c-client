@@ -11,6 +11,7 @@ riemann-c-client (1.10.3-1) unstable; urgency=medium
     point to our new home.
   * Updated the symbol file with new symbols.
   * Build with all hardening flags enabled.
+  * Override the hardening-no-fortify-functions lintian tag.
 
  -- Gergely Nagy <algernon@madhouse-project.org>  Sun, 19 Aug 2018 20:41:53 +0200
 

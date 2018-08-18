@@ -1,0 +1,3 @@
+# We are correctly building with fortification. It just happens that the library
+# has nothing to fortify.
+libriemann-client0 binary: hardening-no-fortify-functions
