@@ -5,6 +5,7 @@
 /*.substvars
 /tmp/
 /debhelper-build-stamp
+/*.debhelper.log
 
 /libriemann-client-dev/
 /libriemann-client0/
