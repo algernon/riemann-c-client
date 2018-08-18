@@ -9,9 +9,9 @@ Build-Depends: debhelper (>= 10~),
                check
 Standards-Version: 4.2.0
 Section: libs
-Homepage: https://github.com/algernon/riemann-c-client
-Vcs-Git: https://github.com/algernon/riemann-c-client.git -b debian/master
-Vcs-Browser: https://github.com/algernon/riemann-c-client/tree/debian/master
+Homepage: https://git.madhouse-project.org/algernon/riemann-c-client
+Vcs-Git:  https://git.madhouse-project.org/algernon/riemann-c-client.git -b debian/master
+Vcs-Browser: https://git.madhouse-project.org/algernon/riemann-c-client/src/branch/debian/master
 
 Package: libriemann-client0
 Architecture: any

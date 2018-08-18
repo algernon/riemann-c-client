@@ -7,6 +7,8 @@ riemann-c-client (1.10.3-1) unstable; urgency=medium
     - NEWS is installed as such, instead of as a changelog.
   * Updated debian/copyright: I have assigned my Debian copyrights to the
     SFC.
+  * Updated the Homepage and VCS-* URLs (along with the watch file) to
+    point to our new home.
 
  -- Gergely Nagy <algernon@madhouse-project.org>  Sun, 19 Aug 2018 20:41:53 +0200
 

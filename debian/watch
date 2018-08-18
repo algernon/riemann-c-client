@@ -1,3 +1,2 @@
 version=3
-
-https://github.com/algernon/riemann-c-client/releases .*/riemann-c-client-([\d\.]+)\.tar\.gz
+https://git.madhouse-project.org/algernon/riemann-c-client/releases .*/riemann-c-client-([\d\.]+)\.tar\.gz
