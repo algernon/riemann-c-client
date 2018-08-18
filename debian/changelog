@@ -8,7 +8,7 @@ riemann-c-client (1.9.1-2) unstable; urgency=medium
 riemann-c-client (1.9.1-1) unstable; urgency=medium
 
   * New upstream release.
-  * Standards-Version bumped to 3.9.8, no changen necessary.
+  * Standards-Version bumped to 3.9.8, no changes necessary.
   * Bump debhelper compat level to 10, and remove obsolete dependencies
     and code.
 
