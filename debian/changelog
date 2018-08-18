@@ -9,6 +9,7 @@ riemann-c-client (1.10.3-1) unstable; urgency=medium
     SFC.
   * Updated the Homepage and VCS-* URLs (along with the watch file) to
     point to our new home.
+  * Updated the symbol file with new symbols.
 
  -- Gergely Nagy <algernon@madhouse-project.org>  Sun, 19 Aug 2018 20:41:53 +0200
 
