@@ -29,6 +29,7 @@ Description: C language client library for the Riemann event stream processor
 Package: libriemann-client-dev
 Section: libdevel
 Architecture: any
+Multi-Arch: same
 Depends: libriemann-client0 (= ${binary:Version}), libprotobuf-c-dev,
          ${misc:Depends}
 Description: Development files for the Riemann C client library
