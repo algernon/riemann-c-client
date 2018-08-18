@@ -42,7 +42,6 @@ lib_libriemann_client_la_SOURCES= \
 	lib/riemann/attribute.c	  \
 	lib/riemann/query.c	  \
 	lib/riemann/simple.c
-$(am_lib_libriemann_client_la_OBJECTS): ${proto_files}
 noinst_HEADERS			= \
 	lib/riemann/_private.h	  \
 	lib/riemann/client/tcp.h  \
@@ -51,6 +50,7 @@ noinst_HEADERS			= \
 
 nodist_lib_libriemann_client_la_SOURCES	= \
 	${proto_files}
+BUILT_SOURCES = ${proto_files}
 
 CLEANFILES			= ${proto_files}
 
