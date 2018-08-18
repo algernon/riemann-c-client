@@ -8,6 +8,7 @@ Bugfixes
 * Dependencies on the generated protobuf C sources have been fixed in the
   Makefile.
 * A few harmless compile-time warnings have been silenced.
+* Fixed a few typos in riemann-client(1).
 
 riemann-c-client 1.10.2
 =======================
