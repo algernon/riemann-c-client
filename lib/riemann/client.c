@@ -45,6 +45,9 @@ riemann_client_version_string (void)
   return PACKAGE_STRING;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattribute-alias"
+
 riemann_client_t *
 SYMVER(riemann_client_new) (void)
 {
@@ -67,6 +70,8 @@ riemann_client_t riemann_client_new_1_0 (void) __attribute__((alias("riemann_cli
 __asm__(".symver riemann_client_new_1_0,riemann_client_new@RIEMANN_C_1.0");
 __asm__(".symver riemann_client_new_default,riemann_client_new@@RIEMANN_C_1.10");
 #endif
+
+#pragma GCC diagnostic pop
 
 int
 riemann_client_disconnect (riemann_client_t *client)
@@ -209,6 +214,9 @@ riemann_client_connect_va (riemann_client_t *client,
   return 0;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattribute-alias"
+
 int
 SYMVER(riemann_client_connect) (riemann_client_t *client,
                                 riemann_client_type_t type,
@@ -274,6 +282,8 @@ __asm__(".symver riemann_client_create_1_0,riemann_client_create@RIEMANN_C_1.0")
 __asm__(".symver riemann_client_create_1_5,riemann_client_create@RIEMANN_C_1.5");
 __asm__(".symver riemann_client_create_default,riemann_client_create@@RIEMANN_C_1.10");
 #endif
+
+#pragma GCC diagnostic pop
 
 int
 riemann_client_send_message (riemann_client_t *client,
