@@ -1,5 +1,5 @@
 /* riemann-c-client -- Riemann C client library
- * Copyright (C) 2013, 2014  Gergely Nagy <algernon@madhouse-project.org>
+ * Copyright (C) 2013-2017  Gergely Nagy <algernon@madhouse-project.org>
  *
  * This library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -19,7 +19,12 @@ static void
 query_dump_event (size_t n, const riemann_event_t *event)
 {
   size_t i;
-  time_t t = event->time;
+  time_t t;
+
+  if (event->has_time_micros)
+    t = event->time_micros/1000000;
+  else
+    t = event->time;
 
   printf ("Event #%zu:\n"
           "  time  = %" PRId64 " - %s"
@@ -29,7 +34,7 @@ query_dump_event (size_t n, const riemann_event_t *event)
           "  description = %s\n"
           "  ttl = %f\n",
           n,
-          event->time, ctime (&t),
+          t, ctime (&t),
           event->state, event->service, event->host,
           event->description, event->ttl);
 
@@ -84,6 +89,8 @@ query_dump_event_json (size_t __attribute__((unused)) n, const riemann_event_t *
 
   if (event->has_time)
     json_object_object_add (o, "time", json_object_new_int64 (event->time));
+  if (event->has_time_micros)
+    json_object_object_add (o, "time_micros", json_object_new_int64 (event->time_micros));
   if (event->state)
     json_object_object_add (o, "state", json_object_new_string (event->state));
   if (event->service)

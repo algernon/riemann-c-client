@@ -34,6 +34,11 @@ START_TEST (test_riemann_event_set)
   ck_assert_int_eq (event->has_time, 1);
   ck_assert_int_eq (event->time, 1234);
 
+  ck_assert (riemann_event_set (event, RIEMANN_EVENT_FIELD_TIME_MICROS, (int64_t) 123456,
+                                RIEMANN_EVENT_FIELD_NONE) == 0);
+  ck_assert_int_eq (event->has_time_micros, 1);
+  ck_assert_int_eq (event->time_micros, 123456);
+
   ck_assert (riemann_event_set (event, RIEMANN_EVENT_FIELD_STATE, "ok",
                                 RIEMANN_EVENT_FIELD_NONE) == 0);
   ck_assert (event->state != NULL);
@@ -135,6 +140,10 @@ START_TEST (test_riemann_event_set_one)
   ck_assert (riemann_event_set_one (event, TIME, (int64_t) 1234) == 0);
   ck_assert_int_eq (event->has_time, 1);
   ck_assert_int_eq (event->time, 1234);
+
+  ck_assert (riemann_event_set_one (event, TIME_MICROS, (int64_t) 123456) == 0);
+  ck_assert_int_eq (event->has_time_micros, 1);
+  ck_assert_int_eq (event->time_micros, 123456);
 
   ck_assert (riemann_event_set_one (event, HOST, "localhost") == 0);
   ck_assert_str_eq (event->host, "localhost");
@@ -246,6 +255,7 @@ START_TEST (test_riemann_event_clone)
   event = riemann_event_create (RIEMANN_EVENT_FIELD_HOST, "localhost",
                                 RIEMANN_EVENT_FIELD_SERVICE, "test",
                                 RIEMANN_EVENT_FIELD_TIME, (int64_t) 1234,
+                                RIEMANN_EVENT_FIELD_TIME_MICROS, (int64_t) 123456,
                                 RIEMANN_EVENT_FIELD_STATE, "ok",
                                 RIEMANN_EVENT_FIELD_DESCRIPTION, "something",
                                 RIEMANN_EVENT_FIELD_TAGS, "tag-1", "tag-2", NULL,
@@ -266,6 +276,7 @@ START_TEST (test_riemann_event_clone)
   ck_assert (clone->service != event->service);
   ck_assert_str_eq (clone->service, event->service);
   ck_assert_int_eq (clone->time, event->time);
+  ck_assert_int_eq (clone->time_micros, event->time_micros);
   ck_assert (clone->state != event->state);
   ck_assert_str_eq (clone->state, event->state);
   ck_assert (clone->description != event->description);

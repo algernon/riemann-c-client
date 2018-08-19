@@ -1,5 +1,5 @@
 /* riemann/client.c -- Riemann C client library
- * Copyright (C) 2013, 2014, 2015  Gergely Nagy <algernon@madhouse-project.org>
+ * Copyright (C) 2013-2017  Gergely Nagy <algernon@madhouse-project.org>
  *
  * This library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -45,8 +45,11 @@ riemann_client_version_string (void)
   return PACKAGE_STRING;
 }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattribute-alias"
+
 riemann_client_t *
-riemann_client_new (void)
+SYMVER(riemann_client_new) (void)
 {
   riemann_client_t *client;
 
@@ -60,6 +63,15 @@ riemann_client_new (void)
 
   return client;
 }
+
+#if HAVE_VERSIONING
+riemann_client_t riemann_client_new_1_0 (void) __attribute__((alias("riemann_client_new_default")));
+
+__asm__(".symver riemann_client_new_1_0,riemann_client_new@RIEMANN_C_1.0");
+__asm__(".symver riemann_client_new_default,riemann_client_new@@RIEMANN_C_1.10");
+#endif
+
+#pragma GCC diagnostic pop
 
 int
 riemann_client_disconnect (riemann_client_t *client)
@@ -202,17 +214,13 @@ riemann_client_connect_va (riemann_client_t *client,
   return 0;
 }
 
-#if HAVE_VERSIONING
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wattribute-alias"
+
 int
-riemann_client_connect_new (riemann_client_t *client,
-                            riemann_client_type_t type,
-                            const char *hostname, int port, ...)
-#else
-int
-riemann_client_connect (riemann_client_t *client,
-                        riemann_client_type_t type,
-                        const char *hostname, int port, ...)
-#endif
+SYMVER(riemann_client_connect) (riemann_client_t *client,
+                                riemann_client_type_t type,
+                                const char *hostname, int port, ...)
 {
   va_list ap;
   int r;
@@ -224,30 +232,20 @@ riemann_client_connect (riemann_client_t *client,
 }
 
 #if HAVE_VERSIONING
-__asm__(".symver riemann_client_connect_new,riemann_client_connect@@RIEMANN_C_1.5");
-#endif
+__asm__(".symver riemann_client_connect_default,riemann_client_connect@@RIEMANN_C_1.5");
 
 int
 riemann_client_connect_1_0 (riemann_client_t *client,
                             riemann_client_type_t type,
                             const char *hostname, int port)
-{
-  return riemann_client_connect (client, type, hostname, port);
-}
+  __attribute__((alias ("riemann_client_connect_default")));
 
-#if HAVE_VERSIONING
 __asm__(".symver riemann_client_connect_1_0,riemann_client_connect@RIEMANN_C_1.0");
 #endif
 
-#if HAVE_VERSIONING
 riemann_client_t *
-riemann_client_create_new (riemann_client_type_t type,
-                           const char *hostname, int port, ...)
-#else
-riemann_client_t *
-riemann_client_create (riemann_client_type_t type,
-                       const char *hostname, int port, ...)
-#endif
+SYMVER(riemann_client_create) (riemann_client_type_t type,
+                               const char *hostname, int port, ...)
 {
   riemann_client_t *client;
   int e;
@@ -270,19 +268,22 @@ riemann_client_create (riemann_client_type_t type,
 }
 
 #if HAVE_VERSIONING
-__asm__(".symver riemann_client_create_new,riemann_client_create@@RIEMANN_C_1.5");
-#endif
-
 riemann_client_t *
 riemann_client_create_1_0 (riemann_client_type_t type,
                            const char *hostname, int port)
-{
-  return riemann_client_create (type, hostname, port);
-}
+  __attribute__((alias ("riemann_client_create_default")));
 
-#if HAVE_VERSIONING
+riemann_client_t *
+riemann_client_create_1_5 (riemann_client_type_t type,
+                           const char *hostname, int port, ...)
+  __attribute__((alias ("riemann_client_create_default")));
+
 __asm__(".symver riemann_client_create_1_0,riemann_client_create@RIEMANN_C_1.0");
+__asm__(".symver riemann_client_create_1_5,riemann_client_create@RIEMANN_C_1.5");
+__asm__(".symver riemann_client_create_default,riemann_client_create@@RIEMANN_C_1.10");
 #endif
+
+#pragma GCC diagnostic pop
 
 int
 riemann_client_send_message (riemann_client_t *client,

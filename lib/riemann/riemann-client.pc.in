@@ -6,6 +6,6 @@ includedir=@includedir@
 Name: riemann-client
 Version: @VERSION@
 Description: Riemann client library
-URL: https://github.com/algernon/riemann-c-client
+URL: https://git.madhouse-project.org/algernon/riemann-c-client
 Libs: -L${libdir} -lriemann-client
 Cflags: -I${includedir}

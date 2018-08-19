@@ -1,6 +1,4 @@
 language: c
-before_install:
-  - sudo pip install cpp-coveralls
 install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq check protobuf-c-compiler libprotobuf-c0-dev libgnutls-dev

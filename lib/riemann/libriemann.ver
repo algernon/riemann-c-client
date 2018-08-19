@@ -77,16 +77,12 @@ RIEMANN_C_1.4 {
 } RIEMANN_C_1.3;
 
 RIEMANN_C_1.5 {
-global:
         riemann_client_create;
         riemann_client_connect;
-local:
-        riemann_client_create_1_0;
-        riemann_client_connect_1_0;
 } RIEMANN_C_1.4;
 
 RIEMANN_C_1.6 {
-	riemann_message_get_packed_size;
+        riemann_message_get_packed_size;
 
         riemann_event_string_attribute_add;
 
@@ -94,10 +90,15 @@ RIEMANN_C_1.6 {
 } RIEMANN_C_1.5;
 
 RIEMANN_C_1.7 {
-	riemann_communicate_query;
-	riemann_communicate_event;
+        riemann_communicate_query;
+        riemann_communicate_event;
 } RIEMANN_C_1.6;
 
 RIEMANN_C_1.8 {
-	riemann_client_set_timeout;
+        riemann_client_set_timeout;
 } RIEMANN_C_1.7;
+
+RIEMANN_C_1.10 {
+        riemann_client_create;
+        riemann_client_new;
+} RIEMANN_C_1.8;

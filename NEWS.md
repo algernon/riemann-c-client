@@ -1,3 +1,57 @@
+riemann-c-client 1.10.3
+=======================
+Released on 2018-08-19
+
+Bugfixes
+--------
+
+* Dependencies on the generated protobuf C sources have been fixed in the
+  Makefile.
+* A few harmless compile-time warnings have been silenced.
+* Fixed a few typos in riemann-client(1).
+
+riemann-c-client 1.10.2
+=======================
+Released on 2017-08-19
+
+Bugfixes
+--------
+
+* A number of formatting issues in the API docs have been fixed.
+
+riemann-c-client 1.10.1
+=======================
+Released on 2017-06-12
+
+Bugfixes
+--------
+
+* The library compiles on OSX/Darwin again, after fixing a symbol aliasing issue.
+
+  Reported by @ilovezfs.
+
+riemann-c-client 1.10.0
+=======================
+Released on 2017-06-09
+
+Features
+--------
+
+* Added support for micro-second timestamps (available since Riemann 0.2.13),
+  implemented by Mathieu Corbin, @mcorbin.
+
+Miscellaneous changes
+---------------------
+
+* The parts of the test suite that require a running Riemann server are now
+  disabled by default, and require setting the `RCC_NETWORK_TESTS` environment
+  variable to a non-zero value, before running the test suite.
+
+  Fixes an issue on systems that had something else listening on the port, or a
+  Riemann with a different config than the one the test suite expected.
+
+  Reported by Dave Cottlehuber, @dch.
+
 riemann-c-client 1.9.1
 ======================
 Released on 2016-09-30

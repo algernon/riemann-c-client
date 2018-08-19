@@ -1,5 +1,5 @@
 /* riemann/event.c -- Riemann C client library
- * Copyright (C) 2013, 2014, 2015  Gergely Nagy <algernon@madhouse-project.org>
+ * Copyright (C) 2013-2017  Gergely Nagy <algernon@madhouse-project.org>
  *
  * This library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -79,6 +79,11 @@ riemann_event_set_va (riemann_event_t *event,
           event->time = (int64_t) va_arg (ap, int64_t);
           event->has_time = 1;
           break;
+
+        case RIEMANN_EVENT_FIELD_TIME_MICROS:
+          event->time_micros = (int64_t) va_arg (ap, int64_t);
+          event->has_time_micros = 1;
+        break;
 
         case RIEMANN_EVENT_FIELD_STATE:
           _riemann_event_set_string (&event->state, va_arg (ap, char *));
@@ -311,6 +316,7 @@ riemann_event_clone (const riemann_event_t *event)
 
   /* Copy non-pointer properties */
   clone->time = event->time;
+  clone->time_micros = event->time_micros;
   clone->ttl = event->ttl;
   clone->metric_sint64 = event->metric_sint64;
   clone->metric_d = event->metric_d;

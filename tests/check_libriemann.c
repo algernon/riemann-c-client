@@ -19,6 +19,11 @@ network_tests_enabled (void)
   struct addrinfo *res, *rp;
   int fd = -1, s;
 
+  char *env_flag = getenv ("RCC_NETWORK_TESTS");
+
+  if (!env_flag || !*env_flag || env_flag[0] == '0')
+    return 0;
+
   memset (&hints, 0, sizeof (struct addrinfo));
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;

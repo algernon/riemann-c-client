@@ -42,7 +42,7 @@ Table of contents
 * [Common conventions in the library](#rcc-section-common-conventions)
 * [License](#rcc-section-license)
 
-<a name="rcc-section-connecting-to-riemann"></a>
+<a id="rcc-section-connecting-to-riemann"></a>
 Connecting to Riemann
 ---------------------
 
@@ -126,7 +126,7 @@ library has a few
 functions adhere. We used a couple of functions in the example above,
 lets see what they do!
 
-<a name="rcc_lib_riemann-client-new"></a>
+<a id="rcc_lib_riemann-client-new"></a>
 ```c
 riemann_client_t *riemann_client_new (void);
 ```
@@ -139,7 +139,7 @@ memory leaks.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-client-free"></a>
+<a id="rcc_lib_riemann-client-free"></a>
 ```c
 void riemann_client_free (riemann_client_t *client);
 ```
@@ -152,7 +152,7 @@ is safe to ignore the error case here.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-client-connect"></a>
+<a id="rcc_lib_riemann-client-connect"></a>
 ```c
 int riemann_client_connect (riemann_client_t *client, riemann_client_type_t type,
                             const char *hostname, int port, ...);
@@ -211,7 +211,7 @@ inbetween.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-client-disconnect"></a>
+<a id="rcc_lib_riemann-client-disconnect"></a>
 ```c
 int riemann_client_disconnect (riemann_client_t *client)
 ```
@@ -230,14 +230,14 @@ it is more succinct to call
 [`riemann_client_free()`](#rcc_lib_riemann-client-free) instead, which
 will also disconnect the client, and free up resources in one step.
 
-<a name="rcc-connecting-to-riemann-simply"></a>
+<a id="rcc-connecting-to-riemann-simply"></a>
 ### Connecting simply
 
 In a lot of cases, creating a new client object is followed by
 connecting to Riemann. This is a pattern used so often that the
 library provides a way to do both things in one step:
 
-<a name="rcc_lib_riemann-client-create"><a>
+<a id="rcc_lib_riemann-client-create"></a>
 ```c
 riemann_client_t *riemann_client_create (riemann_client_type_t type,
                                          const char *hostname, int port,
@@ -250,13 +250,13 @@ As mentioned above, this is a combination of
 it takes the exact same parameters as `riemann_client_connect()`, sans
 the client object itself, and behaves the same way too.
 
-<a name="rcc-section-further-client-methods"></a>
+<a id="rcc-section-further-client-methods"></a>
 ### Further client methods
 
 There are two other methods related to client objects that need
 special mention here:
 
-<a name="rcc_lib_riemann-client-get-fd"></a>
+<a id="rcc_lib_riemann-client-get-fd"></a>
 ```c
 int riemann_client_get_fd (riemann_client_t *client);
 ```
@@ -270,7 +270,7 @@ parameter is `NULL`, it will return `-EINVAL`.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-client-set-timeout"></a>
+<a id="rcc_lib_riemann-client-set-timeout"></a>
 ```c
 int riemann_client_set_timeout (riemann_client_t *client,
                                 struct timeval *timeout);
@@ -285,7 +285,7 @@ out and eventually return an error.
 One can use this function in case where locking up indefinitely is not
 an acceptable behaviour. By default, there is no timeout.
 
-<a name="rcc-section-simple-events-and-queries"></a>
+<a id="rcc-section-simple-events-and-queries"></a>
 Sending events or doing queries, simply
 ---------------------------------------
 
@@ -322,7 +322,7 @@ available when including `<riemann/riemann-client.h>`, one has to
 include `<riemann/simple.h>` in addition too. Lets look at the
 functions in detail, then!
 
-<a name="rcc_lib_riemann-communicate-event"></a>
+<a id="rcc_lib_riemann-communicate-event"></a>
 ```c
 riemann_message_t *riemann_communicate_event (riemann_client_t *client, ...);
 ```
@@ -338,6 +338,13 @@ library supports all fields that the Riemann protocol has support for.
   with directly specified values, the compiler does not know what kind
   of integer type to cast - say - `300` to. So one either has to cast
   it to `int64_t` by hand, or use a typed variable instead.
+* `RIEMANN_EVENT_FIELD_TIME_MICROS`: Since version 0.2.13, Riemann
+  supports microseconds resolution for events. The `time_micros`
+  field, a 64-bit signed integer (`int64_t`), is the time in unix
+  epoch microseconds. Be aware that when using variadic arguments with
+  directly specified values, the compiler does not know what kind of
+  integer type to cast - say - `300` to. So one either has to cast it
+  to `int64_t` by hand, or use a typed variable instead.
 * `RIEMANN_EVENT_FIELD_STATE`: The `state` field, a `NULL`-terminated
   string. The string is copied, and the caller is allowed to free the
   passed variable anytime, if it is necessary.
@@ -459,7 +466,7 @@ returned message object needs to be freed by the caller by calling
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-communicate-query"></a>
+<a id="rcc_lib_riemann-communicate-query"></a>
 ```c
 riemann_message_t *riemann_communicate_query (riemann_client_t *client,
                                               const char *query_string);
@@ -489,7 +496,7 @@ objects. The array will contain exactly the same number of events as
 The function does not work when the client is connected on UDP, and
 will always return an error in that case.
 
-<a name="rcc-section-lower-level-apis"></a>
+<a id="rcc-section-lower-level-apis"></a>
 Lower level APIs
 -----------------
 
@@ -499,7 +506,7 @@ levels of the API, so we can architect our applications in a way that
 takes advantage of some advanced features, such as sending events in
 bulk, and reusing objects to save on allocator load.
 
-<a name="rcc_messages"></a>
+<a id="rcc_messages"></a>
 ### Messages
 
 Messages (`riemann_message_t`) are the high-level container objects in
@@ -535,7 +542,7 @@ not all that common. One such reason is that resetting a message
 object is fairly costly, to throwing away the old, and allocating a
 new one is a negligible difference in performance and resource use.
 
-<a name="rcc_lib_riemann-message-new"></a>
+<a id="rcc_lib_riemann-message-new"></a>
 ```c
 riemann_message_t *riemann_message_new (void);
 ```
@@ -545,7 +552,7 @@ it. If the allocation fails for some reason, returns NULL.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-message-free"></a>
+<a id="rcc_lib_riemann-message-free"></a>
 ```c
 void riemann_message_free (riemann_message_t *message);
 ```
@@ -557,7 +564,7 @@ has to make a copy of them first (by cloning them, for example).
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-message-create-with-events"></a>
+<a id="rcc_lib_riemann-message-create-with-events"></a>
 ```c
 riemann_message_t *riemann_message_create_with_events (riemann_event_t *event, ...);
 riemann_message_t *riemann_message_create_with_events_va (riemann_event_t *event, va_list aq);
@@ -580,7 +587,7 @@ is not desired, a copy should be made prior to calling this function.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-message-create-with-query"></a>
+<a id="rcc_lib_riemann-message-create-with-query"></a>
 ```c
 riemann_message_t *riemann_message_create_with_query (riemann_query_t *query);
 ```
@@ -596,7 +603,7 @@ calling this function.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-message-clone"></a>
+<a id="rcc_lib_riemann-message-clone"></a>
 ```c
 riemann_message_t *riemann_message_clone (const riemann_message_t *message);
 ```
@@ -609,7 +616,7 @@ value.
 
 #### Manipulating message contents
 
-<a name="rcc_lib_riemann-message-set-events"></a>
+<a id="rcc_lib_riemann-message-set-events"></a>
 ```c
 int riemann_message_set_events (riemann_message_t *message, ...);
 int riemann_message_set_events_va (riemann_message_t *message, va_list aq);
@@ -646,7 +653,7 @@ events are only known at run time.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-message-append-events"></a>
+<a id="rcc_lib_riemann-message-append-events"></a>
 ```c
 int riemann_message_append_events (riemann_message_t *message, ...);
 int riemann_message_append_events_va (riemann_message_t *message, va_list aq);
@@ -666,7 +673,7 @@ replacing the old set.
 --------------------------------------------------------------
 
 
-<a name="rcc_lib_riemann-message-set-query"></a>
+<a id="rcc_lib_riemann-message-set-query"></a>
 ```c
 int riemann_message_set_query (riemann_message_t *message,
                                riemann_query_t *query);
@@ -690,7 +697,7 @@ can be serialised and deserialised. On the wire, each message is
 prefixed with a 32-bit length header, followed by the serialised
 message itself.
 
-<a name="rcc_lib_riemann-message-to-buffer"></a>
+<a id="rcc_lib_riemann-message-to-buffer"></a>
 ```c
 uint8_t *riemann_message_to_buffer (riemann_message_t *message, size_t *len);
 ```
@@ -703,7 +710,7 @@ On failure, returns `NULL`, and sets up `errno` appropriately.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-message-from-buffer"></a>
+<a id="rcc_lib_riemann-message-from-buffer"></a>
 ```c
 riemann_message_t *riemann_message_from_buffer (uint8_t *buffer, size_t len);
 ```
@@ -717,7 +724,7 @@ failure, in which case it also sets `errno`.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-message-get-packed-size"></a>
+<a id="rcc_lib_riemann-message-get-packed-size"></a>
 ```c
 size_t riemann_message_get_packed_size (riemann_message_t *message);
 ```
@@ -733,7 +740,7 @@ serialize it.
 Returns the size of the message, or 0 on failure, in which case it
 also sets `errno`.
 
-<a name="rcc_events"></a>
+<a id="rcc_events"></a>
 ### Events
 
 Events are at the core of Riemann. One sends events to it, and when
@@ -749,6 +756,9 @@ declares, but we include them here for the sake of completeness.
 
 * `->has_time` and `->time`: The timestamp, and a boolean flag that
   signals whether the timestamp is part of the event.
+* `->has_time_micros` and `->time_micros`: The timestamp in
+  microseconds, and a boolean flag that signals whether the timestamp
+  is part of the event.
 * `->state`: The event state, a `NULL`-terminated string.
 * `->service`: The service name, a `NULL`-terminated string.
 * `->host`: The host the event originates from, a `NULL`-terminated
@@ -768,7 +778,7 @@ declares, but we include them here for the sake of completeness.
 
 #### Creating & freeing events
 
-<a name="rcc_lib_riemann-event-new"></a>
+<a id="rcc_lib_riemann-event-new"></a>
 ```c
 riemann_event_t *riemann_event_new (void);
 ```
@@ -778,7 +788,7 @@ otherwise, in which case it sets up `errno` too.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-event-create"></a>
+<a id="rcc_lib_riemann-event-create"></a>
 ```c
 riemann_event_t *riemann_event_create (...);
 riemann_event_t *riemann_event_create_va (riemann_event_field_t field, va_list aq);
@@ -798,7 +808,7 @@ primarily.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-event-clone"></a>
+<a id="rcc_lib_riemann-event-clone"></a>
 ```c
 riemann_event_t *riemann_event_clone (const riemann_event_t *event);
 ```
@@ -809,7 +819,7 @@ function does just that. Returns a newly allocated event object, or
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-event-free"></a>
+<a id="rcc_lib_riemann-event-free"></a>
 ```c
 void riemann_event_free (riemann_event_t *event);
 ```
@@ -820,7 +830,7 @@ touch it.
 
 #### Setting and updating event contents
 
-<a name="rcc_lib_riemann-event-set"></a>
+<a id="rcc_lib_riemann-event-set"></a>
 ```c
 int riemann_event_set (riemann_event_t *event, ...);
 int riemann_event_set_va (riemann_event_t *event,
@@ -843,6 +853,13 @@ values are listed below:
   with directly specified values, the compiler does not know what kind
   of integer type to cast - say - `300` to. So one either has to cast
   it to `int64_t` by hand, or use a typed variable instead.
+* `RIEMANN_EVENT_FIELD_TIME_MICROS`: Since version 0.2.13, Riemann
+  supports microseconds resolution for events. The `time_micros`
+  field, a 64-bit signed integer (`int64_t`), is the time in unix
+  epoch microseconds. Be aware that when using variadic arguments with
+  directly specified values, the compiler does not know what kind of
+  integer type to cast - say - `300` to. So one either has to cast it
+  to `int64_t` by hand, or use a typed variable instead.
 * `RIEMANN_EVENT_FIELD_STATE`: The `state` field, a `NULL`-terminated
   string. The string is copied, and the caller is allowed to free the
   passed variable anytime, if it is necessary.
@@ -890,7 +907,7 @@ bindings primarily.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-event-set-one"></a>
+<a id="rcc_lib_riemann-event-set-one"></a>
 ```c
 int riemann_event_set_one (riemann_event_t *event,
                            riemann_event_field_t field, ...);
@@ -907,7 +924,7 @@ This function takes an event, a single field (**without** the
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-event-tag-add"></a>
+<a id="rcc_lib_riemann-event-tag-add"></a>
 ```c
 int riemann_event_tag_add (riemann_event_t *event, const char *tag);
 ```
@@ -922,7 +939,7 @@ list. Returns zero on success, or a negative `errno` value on failure.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-event-attribute-add"></a>
+<a id="rcc_lib_riemann-event-attribute-add"></a>
 ```c
 int riemann_event_attribute_add (riemann_event_t *event,
                                  riemann_attribute_t *attrib);
@@ -945,7 +962,7 @@ attribute objects. When one has a pre-defined set of attributes, the
 first form may be more efficient. For all other cases, the second form
 is much more succint and convenient.
 
-<a name="rcc_attributes"></a>
+<a id="rcc_attributes"></a>
 ### Attributes
 
 Attributes are custom key-value pairs one can attach to an
@@ -959,7 +976,7 @@ and therefore, we have a look at them too!
 
 #### Creating & freeing attributes
 
-<a name="rcc_lib_riemann-attribute-new"></a>
+<a id="rcc_lib_riemann-attribute-new"></a>
 ```c
 riemann_attribute_t *riemann_attribute_new (void);
 ```
@@ -970,7 +987,7 @@ error, returns `NULL` and sets `errno` to an appropriate value.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-attribute-create"></a>
+<a id="rcc_lib_riemann-attribute-create"></a>
 ```c
 riemann_attribute_t *riemann_attribute_create (const char *key,
                                                const char *value);
@@ -983,7 +1000,7 @@ expected, returns a newly allocated attribute object on success, and
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-attribute-clone"></a>
+<a id="rcc_lib_riemann-attribute-clone"></a>
 ```c
 riemann_attribute_t *riemann_attribute_clone (const riemann_attribute_t *attrib);
 ```
@@ -997,7 +1014,7 @@ sets up `errno`.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-attribute-free"></a>
+<a id="rcc_lib_riemann-attribute-free"></a>
 ```c
 void riemann_attribute_free (riemann_attribute_t *attrib);
 ```
@@ -1007,7 +1024,7 @@ Frees up the attribute object. If any of the operations fail, sets
 
 #### Manipulating attributes
 
-<a name="rcc_lib_riemann-attribute-set"></a>
+<a id="rcc_lib_riemann-attribute-set"></a>
 ```c
 int riemann_attribute_set_key (riemann_attribute_t *attrib, const char *key);
 int riemann_attribute_set_value (riemann_attribute_t *attrib, const char *value);
@@ -1020,7 +1037,7 @@ To change the key, the value, or both properties of an attribute,
 these functions help. They all return zero on success, and a negative
 `errno` value on failure.
 
-<a name="rcc_query"></a>
+<a id="rcc_query"></a>
 ### Queries
 
 To query riemann, one will have to wrap `riemann_query_t` objects into
@@ -1033,7 +1050,7 @@ helpers and API to construct such a string.
 
 #### Creating and freeing query objects
 
-<a name="rcc_lib_riemann-query-new">
+<a id="rcc_lib_riemann-query-new"></a>
 ```c
 riemann_query_t *riemann_query_new (const char *string);
 ```
@@ -1048,7 +1065,7 @@ it also sets `errno` to an appropriate value.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-query-clone">
+<a id="rcc_lib_riemann-query-clone"></a>
 ```c
 riemann_query_t *riemann_query_clone (const riemann_query_t *query);
 ```
@@ -1062,7 +1079,7 @@ in which case it also sets up `errno`.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-query-free">
+<a id="rcc_lib_riemann-query-free"></a>
 ```c
 void riemann_query_free (riemann_query_t *query);
 ```
@@ -1073,7 +1090,7 @@ touch it.
 
 #### Manipulating query objects
 
-<a name="rcc_lib_riemann-query-set-string">
+<a id="rcc_lib_riemann-query-set-string"></a>
 ```c
 int riemann_query_set_string (riemann_query_t *query, const char *string);
 ```
@@ -1084,7 +1101,7 @@ with the query object, before assigning the new one.
 
 Returns zero on success, a negative `errno` value otherwise.
 
-<a name="rcc_client"></a>
+<a id="rcc_client"></a>
 ### Low-level client operations
 
 We already learned how to send one-off operations to Riemann using the
@@ -1098,7 +1115,7 @@ communication functions.
 
 #### Sending and receiving messages
 
-<a name="rcc_lib_riemann-client-send-message">
+<a id="rcc_lib_riemann-client-send-message"></a>
 ```c
 int riemann_client_send_message (riemann_client_t *client,
                                  riemann_message_t *message);
@@ -1120,7 +1137,7 @@ freed even if the send did not succeed!
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-send">
+<a id="rcc_lib_riemann-send"></a>
 ```c
 int riemann_send (riemann_client_t *client,
                   riemann_event_field_t field, ...);
@@ -1152,7 +1169,7 @@ for more information about receiving replies.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-query">
+<a id="rcc_lib_riemann-query"></a>
 ```c
 riemann_message_t *riemann_query (riemann_client_t *client,
                                   const char *query);
@@ -1167,7 +1184,7 @@ and sets `errno` to an appropriate value.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-client-recv-message">
+<a id="rcc_lib_riemann-client-recv-message"></a>
 ```c
 riemann_message_t *riemann_client_recv_message (riemann_client_t *client);
 ```
@@ -1179,7 +1196,7 @@ appropriate value.
 
 --------------------------------------------------------------
 
-<a name="rcc_lib_riemann-communicate">
+<a id="rcc_lib_riemann-communicate"></a>
 ```c
 riemann_message_t *riemann_communicate (riemann_client_t *client,
                                         riemann_message_t *message);
@@ -1270,7 +1287,7 @@ That's all, so simple. A bit verbose, perhaps, but straightforward
 nevertheless. The example application within the source tree may be of
 interest for anyone wishing to study how to use the library.
 
-<a name="rcc-section-common-conventions"></a>
+<a id="rcc-section-common-conventions"></a>
 Common conventions in the library
 ---------------------------------
 
@@ -1307,11 +1324,11 @@ in any way, as the library will be in control of them from that point
 onward. Exceptions are, of course, documented at the relevant
 functions.
 
-<a name="rcc-section-license"></a>
+<a id="rcc-section-license"></a>
 License
 -------
 
-Copyright (C) 2013, 2014, 2015 Gergely Nagy, released under the terms
+Copyright (C) 2013-2017 Gergely Nagy, released under the terms
 of the [GNU Lesser General Public License][lgpl], version 3+.
 
  [lgpl]: http://www.gnu.org/licenses/lgpl.html

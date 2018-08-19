@@ -11,10 +11,6 @@ protodir			= ${pkgincludedir}/proto
 VERSION				= @VERSION@${SNAPSHOT_VERSION}
 
 # -- Libraries --
-LRC_CURRENT			= 9
-LRC_REVISION			= 1
-LRC_AGE				= 9
-
 lib_LTLIBRARIES			= lib/libriemann-client.la
 
 lib_libriemann_client_la_CFLAGS	= ${AM_CFLAGS} ${PROTOBUF_C_CFLAGS} \
@@ -22,7 +18,7 @@ lib_libriemann_client_la_CFLAGS	= ${AM_CFLAGS} ${PROTOBUF_C_CFLAGS} \
 lib_libriemann_client_la_LDFLAGS= \
 	${PROTOBUF_C_LIBS}	  \
 	${GNUTLS_LIBS}		  \
-	-version-info ${LRC_CURRENT}:${LRC_REVISION}:${LRC_AGE}
+	-version-info ${LRC_LT_VERSION}
 proto_files			= \
 	lib/riemann/proto/riemann.pb-c.c  \
 	lib/riemann/proto/riemann.pb-c.h
@@ -46,7 +42,6 @@ lib_libriemann_client_la_SOURCES= \
 	lib/riemann/attribute.c	  \
 	lib/riemann/query.c	  \
 	lib/riemann/simple.c
-$(am_lib_libriemann_client_la_OBJECTS): ${proto_files}
 noinst_HEADERS			= \
 	lib/riemann/_private.h	  \
 	lib/riemann/client/tcp.h  \
@@ -55,6 +50,7 @@ noinst_HEADERS			= \
 
 nodist_lib_libriemann_client_la_SOURCES	= \
 	${proto_files}
+BUILT_SOURCES = ${proto_files}
 
 CLEANFILES			= ${proto_files}
 
@@ -113,7 +109,7 @@ src_riemann_client_EXTRA_DIST	= \
 	src/cmd-query.c
 
 # -- Extra files to distribute --
-EXTRA_DIST			= README.md NEWS.md LICENSE LICENSE.GPL CONTRIBUTING.md \
+EXTRA_DIST			= README.md NEWS.md LICENSE LICENSE.GPL CODE_OF_CONDUCT.md \
 				  lib/riemann/proto/riemann.proto \
 				  lib/riemann/libriemann.ver \
 				  lib/riemann/riemann-client.pc \
