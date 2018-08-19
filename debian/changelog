@@ -1,9 +1,14 @@
-riemann-c-client (1.9.1-2) unstable; urgency=medium
+riemann-c-client (1.10.3-1) unstable; urgency=medium
 
+  * New upstream release.
+  * Standards-Version bumped to 4.2.0:
+    - debian/copyright updated to use a https:// URL for the Format: stanza.
+    - All extra priorities were changed to optional.
+    - NEWS is installed as such, instead of as a changelog.
   * Updated debian/copyright: I have assigned my Debian copyrights to the
     SFC.
 
- -- Gergely Nagy <algernon@madhouse-project.org>  Tue, 04 Oct 2016 08:49:00 +0200
+ -- Gergely Nagy <algernon@madhouse-project.org>  Sun, 19 Aug 2018 20:41:53 +0200
 
 riemann-c-client (1.9.1-1) unstable; urgency=medium
 

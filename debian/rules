@@ -8,9 +8,9 @@ override_dh_auto_configure:
 
 override_dh_installdocs:
 	dh_installdocs --link-doc=libriemann-client0
-
-override_dh_installchangelogs:
-	dh_installchangelogs NEWS.md
+ifneq (,$(filter libriemann-client0,$(shell dh_listpackages)))
+	install NEWS.md debian/libriemann-client0/usr/share/doc/libriemann-client0/NEWS
+endif
 
 %:
 	dh $@ --no-parallel
