@@ -1,6 +1,6 @@
 riemann-c-client 1.10.3
 =======================
-UNRELEASED
+Released on 2018-08-19
 
 Bugfixes
 --------

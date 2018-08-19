@@ -1,6 +1,6 @@
 # -*- Autoconf -*-
 
-AC_INIT([riemann-c-client], [1.10.2], [algernon@madhouse-project.org])
+AC_INIT([riemann-c-client], [1.10.3], [algernon@madhouse-project.org])
 AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz no-dist-gzip])
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
@@ -17,7 +17,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # b) If interfaces have been changed or added, but binary compatibility has
 #    been preserved, change to C+1:0:A+1
 # c) If the interface is the same as the previous version, change to C:R+1:A
-LRC_LT_VERSION=10:2:10
+LRC_LT_VERSION=10:3:10
 AC_SUBST(LRC_LT_VERSION)
 
 AC_SUBST(MAJOR_VERSION, `echo $PACKAGE_VERSION | sed 's/\(.*\)\..*\..*/\1/g'`)
