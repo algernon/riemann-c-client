@@ -1,3 +1,9 @@
+riemann-c-client (1.10.3-2) unstable; urgency=medium
+
+  * Added an autopkgtest testsuite.
+
+ -- Gergely Nagy <algernon@madhouse-project.org>  Mon, 20 Aug 2018 08:13:42 +0200
+
 riemann-c-client (1.10.3-1) unstable; urgency=medium
 
   * New upstream release.

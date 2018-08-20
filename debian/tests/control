@@ -1,0 +1,2 @@
+Tests: libriemann, symver
+Depends: @, check, pkg-config, build-essential
