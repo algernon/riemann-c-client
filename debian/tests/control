@@ -1,2 +1,2 @@
 Tests: libriemann, symver
-Depends: @, check, pkg-config, build-essential
+Depends: @, check, pkg-config, build-essential, libgnutls28-dev (>= 3.3.0~)

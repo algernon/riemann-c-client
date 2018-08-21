@@ -1,3 +1,9 @@
+riemann-c-client (1.10.3-3) unstable; urgency=medium
+
+  * Add libgnutls28-dev to the autopkgtest dependencies.
+
+ -- Gergely Nagy <algernon@madhouse-project.org>  Tue, 21 Aug 2018 23:52:21 +0200
+
 riemann-c-client (1.10.3-2) unstable; urgency=medium
 
   * Added an autopkgtest testsuite.
