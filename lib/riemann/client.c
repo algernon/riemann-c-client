@@ -1,5 +1,5 @@
 /* riemann/client.c -- Riemann C client library
- * Copyright (C) 2013-2017  Gergely Nagy <algernon@madhouse-project.org>
+ * Copyright (C) 2013-2018  Gergely Nagy <algernon@madhouse-project.org>
  *
  * This library is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public License
@@ -45,8 +45,10 @@ riemann_client_version_string (void)
   return PACKAGE_STRING;
 }
 
+#ifndef __clang__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wattribute-alias"
+#endif
 
 riemann_client_t *
 SYMVER(riemann_client_new) (void)
@@ -71,7 +73,9 @@ __asm__(".symver riemann_client_new_1_0,riemann_client_new@RIEMANN_C_1.0");
 __asm__(".symver riemann_client_new_default,riemann_client_new@@RIEMANN_C_1.10");
 #endif
 
+#ifndef __clang__
 #pragma GCC diagnostic pop
+#endif
 
 int
 riemann_client_disconnect (riemann_client_t *client)
@@ -214,8 +218,10 @@ riemann_client_connect_va (riemann_client_t *client,
   return 0;
 }
 
+#ifndef __clang__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wattribute-alias"
+#endif
 
 int
 SYMVER(riemann_client_connect) (riemann_client_t *client,
@@ -283,7 +289,9 @@ __asm__(".symver riemann_client_create_1_5,riemann_client_create@RIEMANN_C_1.5")
 __asm__(".symver riemann_client_create_default,riemann_client_create@@RIEMANN_C_1.10");
 #endif
 
+#ifndef __clang__
 #pragma GCC diagnostic pop
+#endif
 
 int
 riemann_client_send_message (riemann_client_t *client,
