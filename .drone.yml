@@ -1,4 +1,7 @@
 pipeline:
+  dco:
+    image: algernon/drone-plugin-dco
+
   stable-build:
     image: algernon/debian-ci-builder:stable
     commands:
