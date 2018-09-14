@@ -1,0 +1,18 @@
+pipeline:
+  stable-build:
+    image: algernon/debian-ci-builder:stable
+    commands:
+      - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
+      - autoreconf -i
+      - ./configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g"
+      - make
+      - make check
+
+  unstable-build:
+    image: algernon/debian-ci-builder:unstable
+    commands:
+      - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
+      - autoreconf -i
+      - ./configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g"
+      - make
+      - make check
