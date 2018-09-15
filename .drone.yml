@@ -54,5 +54,3 @@ services:
       - RIEMANN_TLS_KEY=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.pkcs8
       - RIEMANN_TLS_CERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.crt
       - RIEMANN_TLS_CACERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/cacert.pem
-
-    detach: true
