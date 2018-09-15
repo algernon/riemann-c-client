@@ -53,3 +53,11 @@ gmon.out
 # Miscellaneous
 *~
 *.tar.*
+
+# TLS certificates
+/tests/etc/*.pem
+/tests/etc/*.key
+/tests/etc/*.crt
+/tests/etc/*.pkcs8
+/tests/etc/*.csr
+/tests/etc/*.srl
