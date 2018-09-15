@@ -4,20 +4,20 @@ pipeline:
 
   bootstrap:
     group: bootstrap
-    image: algernon/debian-ci-builder:unstable
+    image: algernon/drone-language:C-unstable
     commands:
       - autoreconf -i
 
   tls-certificates:
     group: bootstrap
-    image: algernon/debian-ci-builder:unstable
+    image: algernon/drone-language:C-unstable
     commands:
       - apt install -y openssl
       - cd tests/etc && ./gen-certs.sh
 
   stable-build:
     group: build
-    image: algernon/debian-ci-builder:stable
+    image: algernon/drone-language:C-stable
     environment:
       - RCC_NETWORK_TESTS=1
       - RIEMANN_HOST=riemann
@@ -32,7 +32,7 @@ pipeline:
 
   unstable-build:
     group: build
-    image: algernon/debian-ci-builder:unstable
+    image: algernon/drone-language:C-unstable
     environment:
       - RCC_NETWORK_TESTS=1
       - RIEMANN_HOST=riemann
