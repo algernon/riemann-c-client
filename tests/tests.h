@@ -19,4 +19,12 @@
                   -e, (char *)strerror (-e), E, (char *)strerror (E));     \
   }
 
+#define ck_assert_errnos(X, checks)                                 \
+  {                                                                 \
+    int e = (X);                                                    \
+    ck_assert_msg(checks,                                           \
+                  "Assertion '" #checks "' failed: errno==%d (%s)", \
+                  -e, (char *)strerror (-e));                       \
+  }
+
 #endif

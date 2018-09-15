@@ -60,9 +60,9 @@ START_TEST (test_riemann_client_connect)
                        EADDRNOTAVAIL);
 
       mock (socket, mock_enosys_int_always_fail);
-      ck_assert_errno (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                               RIEMANN_HOST, RIEMANN_TCP_PORT),
-                       ENOSYS);
+      ck_assert_errnos (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
+                                                RIEMANN_HOST, RIEMANN_TCP_PORT),
+                        -e == ENOSYS || -e == EADDRNOTAVAIL );
       restore (socket);
 
       /** TLS tests **/
@@ -250,7 +250,7 @@ START_TEST (test_riemann_client_create)
 
   client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, 5559);
   ck_assert (client == NULL);
-  ck_assert_errno (-errno, ECONNREFUSED);
+  ck_assert_errnos (-errno, -e == ECONNREFUSED || -e == EADDRNOTAVAIL);
 
   client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   ck_assert (client != NULL);
