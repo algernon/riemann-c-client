@@ -21,9 +21,6 @@ pipeline:
     environment:
       - RCC_NETWORK_TESTS=1
       - RIEMANN_HOST=riemann
-      - RIEMANN_TLS_KEY=tests/etc/client.key
-      - RIEMANN_TLS_CERT=tests/etc/client.crt
-      - RIEMANN_TLS_CACERT=etc/cacert.pem
     commands:
       - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
       - install -d _build/stable
@@ -38,9 +35,6 @@ pipeline:
     environment:
       - RCC_NETWORK_TESTS=1
       - RIEMANN_HOST=riemann
-      - RIEMANN_TLS_KEY=tests/etc/client.key
-      - RIEMANN_TLS_CERT=tests/etc/client.crt
-      - RIEMANN_TLS_CACERT=etc/cacert.pem
     commands:
       - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
       - install -d _build/unstable
