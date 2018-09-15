@@ -12,6 +12,12 @@
 #include "riemann/platform.h"
 #include "tests.h"
 
+char *RIEMANN_HOST;
+char *RIEMANN_TCP_PORT_STR;
+uint16_t RIEMANN_TCP_PORT;
+uint16_t RIEMANN_UDP_PORT;
+uint16_t RIEMANN_TLS_PORT;
+
 static int
 network_tests_enabled (void)
 {
@@ -28,7 +34,7 @@ network_tests_enabled (void)
   hints.ai_family = AF_UNSPEC;
   hints.ai_socktype = SOCK_STREAM;
 
-  s = getaddrinfo ("127.0.0.1", "5555", &hints, &res);
+  s = getaddrinfo (RIEMANN_HOST, RIEMANN_TCP_PORT_STR, &hints, &res);
   if (s != 0)
     return 0;
 
@@ -69,8 +75,27 @@ main (void)
 {
   Suite *suite;
   SRunner *runner;
+  char *e;
 
   int nfailed;
+
+  RIEMANN_HOST = getenv ("RIEMANN_HOST");
+  if (!RIEMANN_HOST)
+    RIEMANN_HOST = "localhost";
+  RIEMANN_TCP_PORT_STR = getenv ("RIEMANN_TCP_PORT");
+  if (!RIEMANN_TCP_PORT_STR)
+    RIEMANN_TCP_PORT_STR = "5555";
+  RIEMANN_TCP_PORT = atoi (RIEMANN_TCP_PORT_STR);
+
+  e = getenv ("RIEMANN_UDP_PORT");
+  if (!e)
+    e = "5555";
+  RIEMANN_UDP_PORT = atoi(e);
+
+  e = getenv ("RIEMANN_TLS_PORT");
+  if (!e)
+    e = "5554";
+  RIEMANN_TLS_PORT = atoi(e);
 
   suite = suite_create ("Riemann C client library tests");
 

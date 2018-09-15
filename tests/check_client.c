@@ -33,35 +33,35 @@ START_TEST (test_riemann_client_connect)
   client = riemann_client_new ();
 
   ck_assert_errno (riemann_client_connect (NULL, RIEMANN_CLIENT_TCP,
-                                           "127.0.0.1", 5555), EINVAL);
+                                           RIEMANN_HOST, RIEMANN_TCP_PORT), EINVAL);
   ck_assert_errno (riemann_client_connect (client, RIEMANN_CLIENT_NONE,
-                                           "127.0.0.1", 5555), EINVAL);
+                                           RIEMANN_HOST, RIEMANN_TCP_PORT), EINVAL);
   ck_assert_errno (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                           NULL, 5555), EINVAL);
+                                           NULL, RIEMANN_TCP_PORT), EINVAL);
   ck_assert_errno (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                           "127.0.0.1", -1), ERANGE);
+                                           RIEMANN_HOST, -1), ERANGE);
 
   if (network_tests_enabled ())
     {
       ck_assert_errno (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                               "127.0.0.1", 5559), ECONNREFUSED);
+                                               RIEMANN_HOST, 5559), ECONNREFUSED);
 
       ck_assert (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                         "127.0.0.1", 5555) == 0);
+                                         RIEMANN_HOST, RIEMANN_TCP_PORT) == 0);
       ck_assert_errno (riemann_client_disconnect (client), 0);
 
       ck_assert (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                         "127.0.0.1", 5555,
+                                         RIEMANN_HOST, RIEMANN_TCP_PORT,
                                          RIEMANN_CLIENT_OPTION_NONE) == 0);
       ck_assert_errno (riemann_client_disconnect (client), 0);
 
       ck_assert_errno (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                               "non-existent.example.com", 5555),
+                                               "non-existent.example.com", RIEMANN_TCP_PORT),
                        EADDRNOTAVAIL);
 
       mock (socket, mock_enosys_int_always_fail);
       ck_assert_errno (riemann_client_connect (client, RIEMANN_CLIENT_TCP,
-                                               "127.0.0.1", 5555),
+                                               RIEMANN_HOST, RIEMANN_TCP_PORT),
                        ENOSYS);
       restore (socket);
 
@@ -70,14 +70,14 @@ START_TEST (test_riemann_client_connect)
       ck_assert_errno
         (riemann_client_connect
          (client, RIEMANN_CLIENT_TLS,
-          "127.0.0.1", 5554,
+          RIEMANN_HOST, RIEMANN_TLS_PORT,
           RIEMANN_CLIENT_OPTION_NONE),
          EINVAL);
 
       ck_assert_errno
         (riemann_client_connect
          (client, RIEMANN_CLIENT_TLS,
-          "127.0.0.1", 5554,
+          RIEMANN_HOST, RIEMANN_TLS_PORT,
           256,
           RIEMANN_CLIENT_OPTION_NONE),
          EINVAL);
@@ -85,7 +85,7 @@ START_TEST (test_riemann_client_connect)
       ck_assert_errno
         (riemann_client_connect
          (client, RIEMANN_CLIENT_TLS,
-          "127.0.0.1", 5554,
+          RIEMANN_HOST, RIEMANN_TLS_PORT,
           RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
           RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
           RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -96,7 +96,7 @@ START_TEST (test_riemann_client_connect)
       ck_assert_errno
         (riemann_client_connect
          (client, RIEMANN_CLIENT_TLS,
-          "127.0.0.1", 5554,
+          RIEMANN_HOST, RIEMANN_TLS_PORT,
           RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert-invalid.pem",
           RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
           RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -106,7 +106,7 @@ START_TEST (test_riemann_client_connect)
       ck_assert_errno
         (riemann_client_connect
          (client, RIEMANN_CLIENT_TLS,
-          "127.0.0.1", 5555,
+          RIEMANN_HOST, RIEMANN_TCP_PORT,
           RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
           RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
           RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -117,7 +117,7 @@ START_TEST (test_riemann_client_connect)
       ck_assert_errno
         (riemann_client_connect
          (client, RIEMANN_CLIENT_TLS,
-          "127.0.0.1", 5554,
+          RIEMANN_HOST, RIEMANN_TLS_PORT,
           RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
           RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
           RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -128,7 +128,7 @@ START_TEST (test_riemann_client_connect)
       ck_assert_errno
         (riemann_client_connect
          (client, RIEMANN_CLIENT_TLS,
-          "127.0.0.1", 5554,
+          RIEMANN_HOST, RIEMANN_TLS_PORT,
           RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
           RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
           RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -152,7 +152,7 @@ START_TEST (test_riemann_client_get_fd)
     {
       riemann_client_t *client;
 
-      client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+      client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
       ck_assert (riemann_client_get_fd (client) != 0);
       riemann_client_free (client);
     }
@@ -201,7 +201,7 @@ START_TEST (test_riemann_client_set_timeout)
     {
       int fd;
 
-      client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+      client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
       ck_assert_errno (riemann_client_set_timeout (client, NULL), EINVAL);
       ck_assert_errno (riemann_client_set_timeout (client, &timeout), 0);
 
@@ -218,7 +218,7 @@ START_TEST (test_riemann_client_set_timeout)
 
       riemann_client_disconnect (client);
 
-      riemann_client_connect (client, RIEMANN_CLIENT_UDP, "127.0.0.1", 5555);
+      riemann_client_connect (client, RIEMANN_CLIENT_UDP, RIEMANN_HOST, RIEMANN_UDP_PORT);
       ck_assert_errno (riemann_client_set_timeout (client, &timeout), 0);
 
       riemann_client_free (client);
@@ -234,7 +234,7 @@ START_TEST (test_riemann_client_disconnect)
     {
       riemann_client_t *client;
 
-      client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+      client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
       client->sock++;
 
       ck_assert_errno (riemann_client_disconnect (client), EBADF);
@@ -248,17 +248,17 @@ START_TEST (test_riemann_client_create)
 {
   riemann_client_t *client;
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5559);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, 5559);
   ck_assert (client == NULL);
   ck_assert_errno (-errno, ECONNREFUSED);
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   ck_assert (client != NULL);
   ck_assert_errno (riemann_client_disconnect (client), 0);
   ck_assert (client != NULL);
   riemann_client_free (client);
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555,
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT,
                                   RIEMANN_CLIENT_OPTION_NONE);
   ck_assert (client != NULL);
   ck_assert_errno (riemann_client_disconnect (client), 0);
@@ -268,7 +268,7 @@ START_TEST (test_riemann_client_create)
 #if HAVE_GNUTLS
   client = riemann_client_create
     (RIEMANN_CLIENT_TLS,
-     "127.0.0.1", 5554,
+     RIEMANN_HOST, RIEMANN_TLS_PORT,
      RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
      RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
      RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -280,7 +280,7 @@ START_TEST (test_riemann_client_create)
 #else
   client = riemann_client_create
     (RIEMANN_CLIENT_TLS,
-     "127.0.0.1", 5554,
+     RIEMANN_HOST, RIEMANN_TLS_PORT,
      RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
      RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
      RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -309,7 +309,7 @@ START_TEST (test_riemann_client_send_message)
   riemann_client_t *client, *client_fresh;
   riemann_message_t *message;
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   message = riemann_message_create_with_events
     (riemann_event_create (RIEMANN_EVENT_FIELD_SERVICE, "test",
                            RIEMANN_EVENT_FIELD_STATE, "ok",
@@ -336,7 +336,7 @@ START_TEST (test_riemann_client_send_message)
 
   riemann_client_free (client);
 
-  client = riemann_client_create (RIEMANN_CLIENT_UDP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_UDP, RIEMANN_HOST, RIEMANN_UDP_PORT);
 
   mock (riemann_message_to_buffer, _mock_message_to_buffer);
   ck_assert_errno (riemann_client_send_message (client, message),
@@ -394,7 +394,7 @@ START_TEST (test_riemann_client_recv_message)
   ck_assert (riemann_client_recv_message (NULL) == NULL);
   ck_assert_errno (-errno, ENOTCONN);
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   message = riemann_message_create_with_events
     (riemann_event_create (RIEMANN_EVENT_FIELD_SERVICE, "test",
                            RIEMANN_EVENT_FIELD_STATE, "ok",
@@ -412,7 +412,7 @@ START_TEST (test_riemann_client_recv_message)
   riemann_message_free (response);
   riemann_client_free (client);
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   riemann_client_send_message (client, message);
   mock (recv, mock_enosys_ssize_t_always_fail);
   ck_assert (riemann_client_recv_message (client) == NULL);
@@ -420,7 +420,7 @@ START_TEST (test_riemann_client_recv_message)
   restore (recv);
   riemann_client_free (client);
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   riemann_client_send_message (client, message);
   mock (recv, _mock_recv_message_part);
   ck_assert (riemann_client_recv_message (client) == NULL);
@@ -428,7 +428,7 @@ START_TEST (test_riemann_client_recv_message)
   restore (recv);
   riemann_client_free (client);
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   riemann_client_send_message (client, message);
   mock (recv, _mock_recv_message_garbage);
   ck_assert (riemann_client_recv_message (client) == NULL);
@@ -436,7 +436,7 @@ START_TEST (test_riemann_client_recv_message)
   restore (recv);
   riemann_client_free (client);
 
-  client = riemann_client_create (RIEMANN_CLIENT_UDP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_UDP, RIEMANN_HOST, RIEMANN_UDP_PORT);
 
   ck_assert (riemann_client_recv_message (client) == NULL);
   ck_assert_errno (-errno, ENOTSUP);
@@ -451,7 +451,7 @@ START_TEST (test_riemann_client_send_message_oneshot)
 {
   riemann_client_t *client, *client_fresh;
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   ck_assert_errno (riemann_client_send_message_oneshot
                    (NULL, riemann_message_create_with_events
                     (riemann_event_create (RIEMANN_EVENT_FIELD_SERVICE, "test",
@@ -532,7 +532,7 @@ START_TEST (test_riemann_client_send_message_tls)
 
   client = riemann_client_create
     (RIEMANN_CLIENT_TLS,
-     "127.0.0.1", 5554,
+     RIEMANN_HOST, RIEMANN_TLS_PORT,
      RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
      RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
      RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -571,7 +571,7 @@ START_TEST (test_riemann_client_recv_message_tls)
 
   client = riemann_client_create
     (RIEMANN_CLIENT_TLS,
-     "127.0.0.1", 5554,
+     RIEMANN_HOST, RIEMANN_TLS_PORT,
      RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
      RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
      RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -590,7 +590,7 @@ START_TEST (test_riemann_client_recv_message_tls)
 
   client = riemann_client_create
     (RIEMANN_CLIENT_TLS,
-     "127.0.0.1", 5554,
+     RIEMANN_HOST, RIEMANN_TLS_PORT,
      RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
      RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
      RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -604,7 +604,7 @@ START_TEST (test_riemann_client_recv_message_tls)
 
   client = riemann_client_create
     (RIEMANN_CLIENT_TLS,
-     "127.0.0.1", 5554,
+     RIEMANN_HOST, RIEMANN_TLS_PORT,
      RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
      RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
      RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",
@@ -618,7 +618,7 @@ START_TEST (test_riemann_client_recv_message_tls)
 
   client = riemann_client_create
     (RIEMANN_CLIENT_TLS,
-     "127.0.0.1", 5554,
+     RIEMANN_HOST, RIEMANN_TLS_PORT,
      RIEMANN_CLIENT_OPTION_TLS_CA_FILE, "tests/data/cacert.pem",
      RIEMANN_CLIENT_OPTION_TLS_CERT_FILE, "tests/data/client.crt",
      RIEMANN_CLIENT_OPTION_TLS_KEY_FILE, "tests/data/client.key",

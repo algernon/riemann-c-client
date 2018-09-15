@@ -4,7 +4,7 @@ START_TEST (test_riemann_simple_send)
 {
   riemann_client_t *client;
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
 
   ck_assert_errno (riemann_send (NULL, RIEMANN_EVENT_FIELD_NONE), ENOTCONN);
 
@@ -28,7 +28,7 @@ START_TEST (test_riemann_simple_query)
   ck_assert (riemann_query (NULL, "service = \"test-simple\"") == NULL);
   ck_assert_errno (-errno, ENOTCONN);
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
 
   riemann_send (client,
                 RIEMANN_EVENT_FIELD_SERVICE, "test-simple",
@@ -50,7 +50,7 @@ START_TEST (test_riemann_simple_communicate)
   riemann_client_t *client, *dummy_client;
   riemann_message_t *message, *response;
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   message = riemann_message_create_with_events
     (riemann_event_create (RIEMANN_EVENT_FIELD_HOST, "localhost",
                            RIEMANN_EVENT_FIELD_SERVICE, "test_riemann_simple_communicate",
@@ -99,7 +99,7 @@ START_TEST (test_riemann_simple_communicate)
   riemann_message_free (response);
 
   riemann_client_disconnect (client);
-  riemann_client_connect (client, RIEMANN_CLIENT_UDP, "127.0.0.1", 5555);
+  riemann_client_connect (client, RIEMANN_CLIENT_UDP, RIEMANN_HOST, RIEMANN_UDP_PORT);
   message = riemann_message_create_with_events
     (riemann_event_create (RIEMANN_EVENT_FIELD_HOST, "localhost",
                            RIEMANN_EVENT_FIELD_SERVICE, "test_riemann_simple_communicate",
@@ -112,7 +112,7 @@ START_TEST (test_riemann_simple_communicate)
   riemann_message_free (response);
   riemann_client_disconnect (client);
 
-  riemann_client_connect (client, RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  riemann_client_connect (client, RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   message = riemann_message_create_with_events
     (riemann_event_create (RIEMANN_EVENT_FIELD_HOST, "localhost",
                            RIEMANN_EVENT_FIELD_SERVICE, "test_riemann_simple_communicate #2",
@@ -129,7 +129,7 @@ START_TEST (test_riemann_simple_communicate)
   riemann_message_free (response);
   riemann_client_disconnect (client);
 
-  riemann_client_connect (client, RIEMANN_CLIENT_UDP, "127.0.0.1", 5555);
+  riemann_client_connect (client, RIEMANN_CLIENT_UDP, RIEMANN_HOST, RIEMANN_UDP_PORT);
   message = riemann_message_create_with_events
     (riemann_event_create (RIEMANN_EVENT_FIELD_HOST, "localhost",
                            RIEMANN_EVENT_FIELD_SERVICE, "test_riemann_simple_communicate #2",
@@ -155,7 +155,7 @@ START_TEST (test_riemann_simple_communicate_query)
   riemann_client_t *client;
   riemann_message_t *response;
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   response = riemann_communicate_query (client, "true");
   ck_assert (response != NULL);
   ck_assert_int_eq (response->ok, 1);
@@ -163,7 +163,7 @@ START_TEST (test_riemann_simple_communicate_query)
   riemann_message_free (response);
   riemann_client_disconnect (client);
 
-  client = riemann_client_create (RIEMANN_CLIENT_UDP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_UDP, RIEMANN_HOST, RIEMANN_UDP_PORT);
   response = riemann_communicate_query (client, "true");
   ck_assert (response == NULL);
   ck_assert_errno (-errno, ENOTSUP);
@@ -178,7 +178,7 @@ START_TEST (test_riemann_simple_communicate_event)
   riemann_client_t *client;
   riemann_message_t *response;
 
-  client = riemann_client_create (RIEMANN_CLIENT_TCP, "127.0.0.1", 5555);
+  client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
   response = riemann_communicate_event
     (client,
      RIEMANN_EVENT_FIELD_HOST, "localhost",
