@@ -70,7 +70,8 @@ pkgconfig_DATA			= lib/riemann/riemann-client.pc
 # -- Testcases --
 if HAVE_CHECK
 UNIT_TESTS			= tests/check_libriemann \
-				  tests/check_symver
+				  tests/check_symver \
+					tests/check_networked
 TESTS				= ${UNIT_TESTS}
 
 AM_TESTS_ENVIRONMENT		= \
@@ -95,7 +96,6 @@ check_libriemann_srcs		= \
 	tests/check_client.c	  \
 	tests/check_attributes.c  \
 	tests/check_queries.c	  \
-	tests/check_simple.c	  \
 	tests/check_libriemann.c
 
 # -- Binaries --
