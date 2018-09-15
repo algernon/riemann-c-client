@@ -224,10 +224,10 @@ START_TEST (test_net_riemann_client_disconnect)
   riemann_client_t *client;
 
   client = riemann_client_create (RIEMANN_CLIENT_TCP, RIEMANN_HOST, RIEMANN_TCP_PORT);
-  client->sock++;
+  client->sock += 4000;
 
   ck_assert_errno (riemann_client_disconnect (client), EBADF);
-  client->sock--;
+  client->sock -= 4000;
   riemann_client_free (client);
 }
 END_TEST
