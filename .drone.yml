@@ -27,7 +27,7 @@ pipeline:
       - cd _build/stable
       - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g"
       - make
-      - make check
+      - make check CK_VERBOSITY=normal
 
   unstable-build:
     group: build
@@ -41,7 +41,7 @@ pipeline:
       - cd _build/unstable
       - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g"
       - make
-      - make check
+      - make check CK_VERBOSITY=normal
 
 services:
   riemann:

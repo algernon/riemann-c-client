@@ -1,7 +1,7 @@
 # -*- Autoconf -*-
 
 AC_INIT([riemann-c-client], [1.10.3], [algernon@madhouse-project.org])
-AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz no-dist-gzip])
+AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz no-dist-gzip serial-tests])
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
