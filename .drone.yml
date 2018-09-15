@@ -3,13 +3,27 @@ pipeline:
     image: algernon/drone-plugin-dco
 
   bootstrap:
+    group: bootstrap
     image: algernon/debian-ci-builder:unstable
     commands:
       - autoreconf -i
 
+  tls-certificates:
+    group: bootstrap
+    image: algernon/debian-ci-builder:unstable
+    commands:
+      - apt install -y openssl
+      - cd tests/etc && ./gen-certs.sh
+
   stable-build:
     group: build
     image: algernon/debian-ci-builder:stable
+    environment:
+      - RCC_NETWORK_TESTS=1
+      - RIEMANN_HOST=riemann
+      - RIEMANN_TLS_KEY=tests/etc/client.key
+      - RIEMANN_TLS_CERT=tests/etc/client.crt
+      - RIEMANN_TLS_CACERT=etc/cacert.pem
     commands:
       - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
       - install -d _build/stable
@@ -21,6 +35,12 @@ pipeline:
   unstable-build:
     group: build
     image: algernon/debian-ci-builder:unstable
+    environment:
+      - RCC_NETWORK_TESTS=1
+      - RIEMANN_HOST=riemann
+      - RIEMANN_TLS_KEY=tests/etc/client.key
+      - RIEMANN_TLS_CERT=tests/etc/client.crt
+      - RIEMANN_TLS_CACERT=etc/cacert.pem
     commands:
       - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
       - install -d _build/unstable
@@ -28,3 +48,15 @@ pipeline:
       - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g"
       - make
       - make check
+
+services:
+  riemann:
+    image: algernon/riemann
+    environment:
+      - RIEMANN_CONFIG=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/riemann.config
+      - RIEMANN_HOST=riemann
+      - RIEMANN_TLS_KEY=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.pkcs8
+      - RIEMANN_TLS_CERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.crt
+      - RIEMANN_TLS_CACERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/cacert.pem
+
+    detach: true
