@@ -22,12 +22,13 @@ pipeline:
       - RCC_NETWORK_TESTS=1
       - RIEMANN_HOST=riemann
     commands:
-      - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
+      - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev lcov
       - install -d _build/stable
       - cd _build/stable
-      - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g"
+      - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g --coverage"
       - make
-      - make check CK_VERBOSITY=normal
+      - make coverage.info CK_VERBOSITY=normal
+      - genhtml coverage.info | tail -n 3
 
   unstable-build:
     group: build
@@ -36,12 +37,13 @@ pipeline:
       - RCC_NETWORK_TESTS=1
       - RIEMANN_HOST=riemann
     commands:
-      - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev
+      - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev lcov
       - install -d _build/unstable
       - cd _build/unstable
-      - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g"
+      - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g --coverage"
       - make
-      - make check CK_VERBOSITY=normal
+      - make coverage.info CK_VERBOSITY=normal
+      - genhtml coverage.info | tail -n 3
 
 services:
   riemann:
