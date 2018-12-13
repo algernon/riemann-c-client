@@ -1,4 +1,5 @@
 libriemann-client.so.0 #PACKAGE# #MINVER#
+* Build-Depends-Package: libriemann-c-client-dev
  (symver)RIEMANN_C_LOCAL 1.0.0
  (symver)RIEMANN_C_1.0 1.0.0
  (symver)RIEMANN_C_1.1 1.1.0
