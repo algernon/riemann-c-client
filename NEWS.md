@@ -1,3 +1,19 @@
+riemann-c-client 1.10.4
+=======================
+Released on 2018-12-13
+
+Tests
+-----
+
+* The test suite has been improved, so it can run against a remote Riemann
+  server. This was made to support end-to-end testing in a CI environment.
+* The (outdated) pre-generated TLS certificates once used for testing are gone,
+  and were replaced by a script that generates them on the fly instead.
+* The test suite now runs tests serialized, as that results in a more useful
+  output.
+* The end-to-end networked tests were split out into a separate file.
+* The test suite will now compile without warnings when using a recent Check.
+
 riemann-c-client 1.10.3
 =======================
 Released on 2018-08-19

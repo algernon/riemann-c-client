@@ -1,0 +1,49 @@
+pipeline:
+  dco:
+    group: meta
+    image: algernon/drone-plugin-dco
+
+  signature-check:
+    group: meta
+    image: algernon/drone-plugin-signature-check
+    keys: [ 10E65DC045EABEFCC5193A26AC1E90BAC433F68F ]
+    when:
+      event: tag
+
+  bootstrap:
+    group: bootstrap
+    image: algernon/drone-language:C
+    commands:
+      - autoreconf -i
+
+  tls-certificates:
+    group: bootstrap
+    image: algernon/drone-language:C
+    commands:
+      - apt install -y openssl
+      - cd tests/etc && ./gen-certs.sh
+
+  build:
+    group: build
+    image: algernon/drone-language:C
+    environment:
+      - RCC_NETWORK_TESTS=1
+      - RIEMANN_HOST=riemann
+    commands:
+      - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev lcov
+      - install -d _build/unstable
+      - cd _build/unstable
+      - ../../configure --enable-silent-rules CFLAGS="-Wall -Wextra -O3 -g --coverage"
+      - make
+      - make coverage.info CK_VERBOSITY=normal
+      - genhtml coverage.info | tail -n 3
+
+services:
+  riemann:
+    image: algernon/drone-service:riemann
+    environment:
+      - RIEMANN_CONFIG=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/riemann.config
+      - RIEMANN_HOST=riemann
+      - RIEMANN_TLS_KEY=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.pkcs8
+      - RIEMANN_TLS_CERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.crt
+      - RIEMANN_TLS_CACERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/cacert.pem

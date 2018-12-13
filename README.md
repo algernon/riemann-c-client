@@ -1,6 +1,8 @@
 Riemann C client library
 ========================
 
+[![CI status](https://ci.madhouse-project.org/api/badges/algernon/riemann-c-client/status.svg?branch=master)](https://ci.madhouse-project.org/algernon/riemann-c-client)
+
 This is a C client library for the [Riemann][riemann] monitoring
 system, providing a convenient and simple API, high test coverage and
 a copyleft license, along with API and ABI stability.
