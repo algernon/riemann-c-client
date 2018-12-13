@@ -7,8 +7,10 @@
   ck_assert_msg((X) O (Y), \
                 "Assertion '"#X#O#Y"' failed: "#X"==%f, "#Y"==%f", X, Y)
 
+#ifndef ck_assert_float_eq
 #define ck_assert_float_eq(X, Y) \
   _ck_assert_float(X, ==, Y)
+#endif
 
 #define ck_assert_errno(X, E)                                              \
   {                                                                        \

@@ -12,6 +12,7 @@ Tests
 * The test suite now runs tests serialized, as that results in a more useful
   output.
 * The end-to-end networked tests were split out into a separate file.
+* The test suite will now compile without warnings when using a recent Check.
 
 riemann-c-client 1.10.3
 =======================
