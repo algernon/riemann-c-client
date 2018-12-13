@@ -1,6 +1,6 @@
-riemann-c-client NEXT
-=====================
-UNRELEASED
+riemann-c-client 1.10.4
+=======================
+Released on 2018-12-13
 
 Tests
 -----
