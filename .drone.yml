@@ -20,6 +20,7 @@ pipeline:
     group: bootstrap
     image: algernon/drone-language:C
     commands:
+      - apt update
       - apt install -y openssl
       - cd tests/etc && ./gen-certs.sh
 
@@ -30,6 +31,7 @@ pipeline:
       - RCC_NETWORK_TESTS=1
       - RIEMANN_HOST=riemann
     commands:
+      - apt update
       - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev lcov
       - install -d _build/unstable
       - cd _build/unstable
