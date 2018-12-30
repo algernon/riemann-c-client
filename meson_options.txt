@@ -1,0 +1,2 @@
+option('require-tls', type: 'boolean', value: false, description: 'Require TLS')
+option('disable-tls', type: 'boolean', value: false, description: 'Disable TLS')

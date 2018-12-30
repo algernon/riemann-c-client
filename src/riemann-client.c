@@ -50,7 +50,7 @@ help_display (const char *app_name, void (*contents)(void))
           "The HOST and PORT arguments are optional, and they default to\n"
           "\"localhost\" and 5555, respectively.\n"
           "\n"
-          "Report " PACKAGE_NAME " bugs to " PACKAGE_BUGREPORT "\n");
+          "Report riemann-c-client bugs to https://git.madhouse-project.org/algernon/riemann-c-client/issues\n");
 }
 
 #include "cmd-send.c"
