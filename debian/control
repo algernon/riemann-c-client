@@ -1,6 +1,6 @@
 Source: riemann-c-client
 Priority: optional
-Maintainer: Gergely Nagy <algernon@madhouse-project.org>
+Maintainer: Debian QA Group <packages@qa.debian.org>
 Build-Depends: debhelper (>= 10~),
                pkg-config,
                protobuf-c-compiler, libprotobuf-c-dev,
