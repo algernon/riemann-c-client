@@ -1,35 +1,44 @@
-pipeline:
-  dco:
-    group: meta
+kind: pipeline
+name: default
+
+steps:
+  - name: dco
     image: algernon/drone-plugin-dco
 
-  signature-check:
-    group: meta
+  - name: signature-check
     image: algernon/drone-plugin-signature-check
-    keys: [ 10E65DC045EABEFCC5193A26AC1E90BAC433F68F ]
+    settings:
+      keys: [ 10E65DC045EABEFCC5193A26AC1E90BAC433F68F ]
     when:
       event: tag
 
-  bootstrap:
-    group: bootstrap
+  - name: bootstrap
     image: algernon/drone-language:C
     commands:
       - autoreconf -i
 
-  tls-certificates:
-    group: bootstrap
+  - name: tls-certificates
     image: algernon/drone-language:C
     commands:
       - apt update
       - apt install -y openssl
       - cd tests/etc && ./gen-certs.sh
 
-  build:
-    group: build
+  - name: riemann
+    image: algernon/drone-service:riemann
+    detach: true
+    environment:
+      RIEMANN_CONFIG: /drone/src/tests/etc/riemann.config
+      RIEMANN_HOST: riemann
+      RIEMANN_TLS_KEY: /drone/src/tests/etc/server.pkcs8
+      RIEMANN_TLS_CERT: /drone/src/tests/etc/server.crt
+      RIEMANN_TLS_CACERT: /drone/src/tests/etc/cacert.pem
+
+  - name: build
     image: algernon/drone-language:C
     environment:
-      - RCC_NETWORK_TESTS=1
-      - RIEMANN_HOST=riemann
+      RCC_NETWORK_TESTS: 1
+      RIEMANN_HOST: riemann
     commands:
       - apt update
       - apt install -y check protobuf-c-compiler libprotobuf-c-dev libgnutls28-dev libjson-c-dev lcov
@@ -39,13 +48,3 @@ pipeline:
       - make
       - make coverage.info CK_VERBOSITY=normal
       - genhtml coverage.info | tail -n 3
-
-services:
-  riemann:
-    image: algernon/drone-service:riemann
-    environment:
-      - RIEMANN_CONFIG=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/riemann.config
-      - RIEMANN_HOST=riemann
-      - RIEMANN_TLS_KEY=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.pkcs8
-      - RIEMANN_TLS_CERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/server.crt
-      - RIEMANN_TLS_CACERT=/drone/src/git.madhouse-project.org/algernon/riemann-c-client/tests/etc/cacert.pem
