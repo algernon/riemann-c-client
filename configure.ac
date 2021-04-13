@@ -71,21 +71,27 @@ PKG_CHECK_MODULES(CHECK, check,,[HAVE_CHECK="no"])
 HAVE_JSON_C=yes
 PKG_CHECK_MODULES(JSON_C, json-c >= 0.11,,[HAVE_JSON_C="no"])
 
-HAVE_GNUTLS="auto"
-AC_ARG_ENABLE([tls],
-  AS_HELP_STRING([--disable-tls], [disable TLS support (default: auto)]))
+HAVE_GNUTLS=auto
 
-case "${enable_tls}" in
-     no)
-        HAVE_GNUTLS="no"
-        ;;
-     yes)
-        PKG_CHECK_MODULES(GNUTLS, gnutls >= 2.8)
-        ;;
-     *)
-        PKG_CHECK_MODULES(GNUTLS, gnutls >= 2.8,, [HAVE_GNUTLS="no"])
-        ;;
-esac
+AC_ARG_WITH([tls],
+  [AS_HELP_STRING([--with-tls],
+                  [Compile with TLS support, GnuTLS or mbed TLS @<:@default=check@:>@])],
+  [],
+  [with_tls="check"])
+
+AS_IF([test "$with_tls" == "check"],
+  [PKG_CHECK_MODULES(GNUTLS, gnutls >= 2.8,, [
+    HAVE_GNUTLS="no"
+    LIB_MBEDTLS
+  ])]
+)
+
+AS_IF([test "$with_tls" == "mbedtls"],
+  [HAVE_GNUTLS="no"
+   LIB_MBEDTLS])
+
+AS_IF([test "$with_tls" == "gnutls"],
+  [PKG_CHECK_MODULES(GNUTLS, gnutls >= 2.8)])
 
 # Check for linker version script support.
 enable_value () {

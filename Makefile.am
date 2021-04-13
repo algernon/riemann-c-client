@@ -14,10 +14,11 @@ VERSION				= @VERSION@${SNAPSHOT_VERSION}
 lib_LTLIBRARIES			= lib/libriemann-client.la
 
 lib_libriemann_client_la_CFLAGS	= ${AM_CFLAGS} ${PROTOBUF_C_CFLAGS} \
-				  ${GNUTLS_CFLAGS}
+				  ${GNUTLS_CFLAGS} ${MBEDTLS_CFLAGS}
 lib_libriemann_client_la_LDFLAGS= \
 	${PROTOBUF_C_LIBS}	  \
 	${GNUTLS_LIBS}		  \
+  ${MBEDTLS_LIBS}     \
 	-version-info ${LRC_LT_VERSION}
 proto_files			= \
 	lib/riemann/proto/riemann.pb-c.c  \
